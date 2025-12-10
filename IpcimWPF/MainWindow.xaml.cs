@@ -66,5 +66,33 @@ namespace IpcimWPF
                 MessageBox.Show("A mezők kitöltése kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
+        private void addButton(object sender, RoutedEventArgs e)
+        {
+            if (domainList == null)
+            {
+                MessageBox.Show("Nincsenek dolgozatok", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            string fajlba = "";
+            foreach (var d in domainList)
+            {
+                fajlba += d.domainName + ";" + d.ipAddress + "\n";
+            }
+            try
+            {
+                File.WriteAllText("csudh.txt", fajlba);
+                MessageBox.Show("Sikeres mentés!", "Mentés", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (ArgumentException ae)
+            {
+                MessageBox.Show("Nem megfelelő argumentum!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (IOException ioe)
+            {
+                MessageBox.Show("Hibás fájl elérési út", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }
