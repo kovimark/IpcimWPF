@@ -33,9 +33,11 @@ namespace IpcimWPF
             }
         }
 
+        List<Domain> domainList = new List<Domain>();
+
         public MainWindow()
         {
-            List<Domain> domainList = new List<Domain>();
+            
             InitializeComponent();
             var adat = File.ReadAllLines("csudh.txt").Skip(1);
 
@@ -47,6 +49,22 @@ namespace IpcimWPF
                 domainList.Add(new Domain(domainName, ipAddress));
             }
             dataGrid.ItemsSource = domainList;
+        }
+
+        private void bevitel(object sender, RoutedEventArgs e)
+        {
+            if (domainName.Text.Length > 0 && ipAddress.Text.Length > 0)
+            {
+                Domain newDomain = new Domain(domainName.Text, ipAddress.Text);
+                domainList.Add(newDomain);
+                dataGrid.Items.Refresh();
+                domainName.Text = "";
+                ipAddress.Text = "";
+            }
+            else
+            {
+                MessageBox.Show("A mezők kitöltése kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }
